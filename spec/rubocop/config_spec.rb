@@ -54,6 +54,26 @@ describe RuboCop::Config do
       end
     end
 
+    context 'validate_configuration' do
+      context 'when the configuration includes conflicting configurations' do
+        before do
+          create_file(configuration_path, [
+            'Style/EmptyElse:',
+            '  Enabled: true',
+            '  EnforcedStyle: both',
+            'Syle/MissingElse:',
+            '  Enabled: true'
+          ])
+        end
+
+        it 'raises validation error' do
+          expect { configuration.validate }
+            .to raise_error(described_class::ValidationError,
+                            /^invalid cop configuration/)
+        end
+      end
+    end
+
     context 'when the configuration includes any common parameter' do
       # Common parameters are parameters that are not in the default
       # configuration, but are nonetheless allowed for any cop.

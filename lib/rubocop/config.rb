@@ -108,6 +108,7 @@ module RuboCop
       end
 
       validate_parameter_names(valid_cop_names)
+      validate_configurations(valid_cop_names)
     end
 
     def file_to_include?(file)
@@ -163,6 +164,24 @@ module RuboCop
                "in #{loaded_path || self}"
         end
       end
+    end
+
+    def validate_configurations(valid_cop_names)
+      return unless valid_cop_names.include?('Style/EmptyElse') &&
+                    valid_cop_names.include?('Style/MissingElse')
+
+      empty_else = for_cop('Style/EmptyElse')
+      missing_else = for_cop('Style/MissingElse')
+
+      return unless missing_else && missing_else['Enabled']
+      return unless empty_else &&
+                    empty_else['Enabled'] &&
+                    empty_else['EnforcedStyle'] == 'both'
+
+      fail ValidationError,
+           "invalid cop configuration in #{loaded_path || self}\n" \
+           'Style/MissingElse cannot be enabled ' \
+           'when Style/EmptyElse is set to both'
     end
   end
 end
