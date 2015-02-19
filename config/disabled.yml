@@ -19,6 +19,15 @@ Style/MethodCalledOnDoEndBlock:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#single-line-blocks'
   Enabled: false
 
+Style/MissingElse:
+  Description: >-
+                Require if statements to have an else condition.
+                If enabled, it is recommended that
+                Style/UnlessElse and Style/EmptyElse be enabled.
+                This will conflict with Style/EmptyElse if
+                Style/EmptyElse is configured to both
+  Enabled: false
+
 Style/SymbolArray:
   Description: 'Use %i or %I for arrays of symbols.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#percent-i'
