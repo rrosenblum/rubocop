@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'pry'
+
 module RuboCop
   module Cop
     # Classes that include this module just implement functions to determine
@@ -12,6 +14,7 @@ module RuboCop
       ESCAPED_CHAR_REGEXP = /(?<! \\) \\{2}* \\ (?! \\)/x
 
       def on_str(node)
+        binding.pry
         # Constants like __FILE__ are handled as strings,
         # but don't respond to begin.
         return unless node.loc.respond_to?(:begin) && node.loc.begin

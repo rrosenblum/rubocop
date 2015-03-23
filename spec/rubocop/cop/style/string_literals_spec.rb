@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'spec_helper'
+require 'pry'
 
 describe RuboCop::Cop::Style::StringLiterals, :config do
   subject(:cop) { described_class.new(config) }
@@ -23,6 +24,12 @@ describe RuboCop::Cop::Style::StringLiterals, :config do
                 'string interpolation or special symbols.'] * 4)
       expect(cop.config_to_allow_offenses).to eq('EnforcedStyle' =>
                                                  'double_quotes')
+    end
+
+    it 'registers an offense for unnessary escaping' do
+      inspect_source(cop, "'Do not write to stdout. Use Rails\\' logger if you want to log.'")
+
+      expect(cop.messages.size).to eq(1)
     end
 
     it 'registers offense for correct + opposite' do

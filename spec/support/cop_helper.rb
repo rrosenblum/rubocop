@@ -13,6 +13,7 @@ module CopHelper
     end
     RuboCop::Formatter::DisabledConfigFormatter.config_to_allow_offenses = {}
     processed_source = parse_source(source, file)
+    binding.pry
     fail 'Error parsing example code' unless processed_source.valid_syntax?
     _investigate(cop, processed_source)
   end
