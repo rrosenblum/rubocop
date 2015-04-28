@@ -119,6 +119,7 @@ require 'rubocop/cop/metrics/perceived_complexity'
 
 require 'rubocop/cop/performance/count'
 require 'rubocop/cop/performance/detect'
+require 'rubocop/cop/performance/each_key'
 require 'rubocop/cop/performance/flat_map'
 require 'rubocop/cop/performance/reverse_each'
 require 'rubocop/cop/performance/sample'
