@@ -533,37 +533,17 @@ describe RuboCop::Cop::Style::ConditionalAssignment do
                           })
     end
 
-    it_behaves_like('all variable types', 'bar')
-    it_behaves_like('all variable types', 'BAR')
-    it_behaves_like('all variable types', 'FOO::BAR')
-    it_behaves_like('all variable types', '@bar')
-    it_behaves_like('all variable types', '@@bar')
-    it_behaves_like('all variable types', '$BAR')
+    ['bar', 'BAR', 'FOO::BAR', '@bar', '@@bar', '$BAR'].each do |variable|
+      it_behaves_like('all variable types', variable)
+      it_behaves_like('multiline all variable types', variable, [])
+    end
 
-    it_behaves_like('multiline all variable types', 'bar', [])
-    it_behaves_like('multiline all variable types', 'BAR', [])
-    it_behaves_like('multiline all variable types', 'FOO::BAR', [])
-    it_behaves_like('multiline all variable types', '@bar', [])
-    it_behaves_like('multiline all variable types', '@@bar', [])
-    it_behaves_like('multiline all variable types', '$BAR', [])
-
-    it_behaves_like('all assignment types', '=')
-    it_behaves_like('all assignment types', '==')
-    it_behaves_like('all assignment types', '===')
-    it_behaves_like('all assignment types', '||=')
-    it_behaves_like('all assignment types', '&&=')
-    it_behaves_like('all assignment types', '+=')
-    it_behaves_like('all assignment types', '-=')
-    it_behaves_like('all assignment types', '<<')
-
-    it_behaves_like('multiline all assignment types', '=', [])
-    it_behaves_like('multiline all assignment types', '==', [])
-    it_behaves_like('multiline all assignment types', '===', [])
-    it_behaves_like('multiline all assignment types', '||=', [])
-    it_behaves_like('multiline all assignment types', '&&=', [])
-    it_behaves_like('multiline all assignment types', '+=', [])
-    it_behaves_like('multiline all assignment types', '-=', [])
-    it_behaves_like('multiline all assignment types', '<<', [])
+    (described_class::METHODS +
+     ['==', '=', '||=', '&&=', '+=', '-=', '===', '*=', '**=']).each do |method|
+      next if method == :[]=
+      it_behaves_like('all assignment types', method)
+      it_behaves_like('multiline all assignment types', method, [])
+    end
 
     it 'allows a method call in the subject of a ternary operator' do
       inspect_source(cop, 'bar << foo? ? 1 : 2')
@@ -695,51 +675,19 @@ describe RuboCop::Cop::Style::ConditionalAssignment do
                           })
     end
 
-    it_behaves_like('all variable types', 'bar')
-    it_behaves_like('all variable types', 'BAR')
-    it_behaves_like('all variable types', 'FOO::BAR')
-    it_behaves_like('all variable types', '@bar')
-    it_behaves_like('all variable types', '@@bar')
-    it_behaves_like('all variable types', '$BAR')
+    ['bar', 'BAR', 'FOO::BAR', '@bar', '@@bar', '$BAR'].each do |variable|
+      it_behaves_like('all variable types', variable)
+      it_behaves_like('multiline all variable types', variable,
+                      [described_class::ASSIGN_TO_CONDITION_MSG])
+    end
 
-    it_behaves_like('multiline all variable types', 'bar',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all variable types', 'BAR',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all variable types', 'FOO::BAR',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all variable types', '@bar',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all variable types', '@@bar',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all variable types', '$BAR',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-
-    it_behaves_like('all assignment types', '=')
-    it_behaves_like('all assignment types', '==')
-    it_behaves_like('all assignment types', '===')
-    it_behaves_like('all assignment types', '||=')
-    it_behaves_like('all assignment types', '&&=')
-    it_behaves_like('all assignment types', '+=')
-    it_behaves_like('all assignment types', '-=')
-    it_behaves_like('all assignment types', '<<')
-
-    it_behaves_like('multiline all assignment types', '=',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '==',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '===',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '||=',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '&&=',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '+=',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '-=',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
-    it_behaves_like('multiline all assignment types', '<<',
-                    [described_class::ASSIGN_TO_CONDITION_MSG])
+    (described_class::METHODS +
+     ['==', '=', '||=', '&&=', '+=', '-=', '===', '*=', '**=']).each do |method|
+      next if method == :[]=
+      it_behaves_like('all assignment types', method)
+      it_behaves_like('multiline all assignment types', method,
+                      [described_class::ASSIGN_TO_CONDITION_MSG])
+    end
 
     it_behaves_like('single line condition auto-correct')
 

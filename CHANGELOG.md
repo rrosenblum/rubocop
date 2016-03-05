@@ -6,6 +6,7 @@
 
 * `Performance/TimesMap` cop can auto-correct. ([@lumeet][])
 * `Style/ZeroLengthPredicate` cop can auto-correct. ([@lumeet][])
+* Add support for more operators in `Style/ConditionalAssignment`. ([@rrosenblum][])
 
 ### Bug fixes
 
@@ -35,6 +36,7 @@
 * `Style/Not` is able to autocorrect in cases where parentheses must be added to preserve the meaning of an expression. ([@alexdowad][])
 * `Style/Not` auto-corrects comparison expressions by removing `not` and using the opposite comparison. ([@alexdowad][])
 * [#2828](https://github.com/bbatsov/rubocop/issues/2828): `Style/ConditionalAssignment` is now configurable to enforce assignment inside of conditions or to enforce assignment to conditions. ([@rrosenblum][])
+* `Style/ConditionalAssignment` now accounts for `+` and `-`. ([@rrosenblum][])
 
 ### Bug fixes
 

@@ -207,7 +207,8 @@ module RuboCop
         MAX = 'Max'.freeze
         SINGLE_LINE_CONDITIONS_ONLY = 'SingleLineConditionsOnly'.freeze
         WIDTH = 'Width'.freeze
-        METHODS = [:[]=, :<<, :=~, :!~, :<=>].freeze
+        METHODS = [:*, :/, :**, :%, :+, :-, :[]=, :<<, :=~, :!~,
+                   :<, :>, :<=>].freeze
         CONDITION_TYPES = [:if, :case].freeze
 
         ASSIGNMENT_TYPES.each do |type|

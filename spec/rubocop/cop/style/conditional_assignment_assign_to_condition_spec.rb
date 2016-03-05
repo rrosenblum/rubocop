@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'pry'
 
 describe RuboCop::Cop::Style::ConditionalAssignment do
   subject(:cop) { described_class.new(config) }
@@ -467,11 +468,9 @@ describe RuboCop::Cop::Style::ConditionalAssignment do
     end
   end
 
-  it_behaves_like('all variable types', 'bar')
-  it_behaves_like('all variable types', 'BAR')
-  it_behaves_like('all variable types', '@bar')
-  it_behaves_like('all variable types', '@@bar')
-  it_behaves_like('all variable types', '$BAR')
+  ['bar', 'BAR', 'FOO::BAR', '@bar', '@@bar', '$BAR'].each do |variable|
+    it_behaves_like('all variable types', variable)
+  end
 
   shared_examples 'all assignment types' do |assignment|
     { 'local variable' => 'bar',
@@ -539,14 +538,13 @@ describe RuboCop::Cop::Style::ConditionalAssignment do
     end
   end
 
-  it_behaves_like('all assignment types', '=')
-  it_behaves_like('all assignment types', '==')
-  it_behaves_like('all assignment types', '===')
-  it_behaves_like('all assignment types', '||=')
-  it_behaves_like('all assignment types', '&&=')
-  it_behaves_like('all assignment types', '+=')
-  it_behaves_like('all assignment types', '<<')
-  it_behaves_like('all assignment types', '-=')
+  (described_class::METHODS +
+   ['>=', '<=', '==', '=', '||=', '&&=', '+=',
+    '-=', '===', '*=', '**=']).each do |method|
+    next unless method == '==='
+    next if method == :[]=
+    it_behaves_like('all assignment types', method)
+  end
 
   it 'registers an offense for assignment in if elsif else' do
     source = ['if foo',
@@ -1082,25 +1080,31 @@ describe RuboCop::Cop::Style::ConditionalAssignment do
                                 '      end'].join("\n"))
     end
 
-    it 'corrects assignment in if elsif else' do
-      source = ['if foo',
-                '  bar = 1',
-                'elsif baz',
-                '  bar = 2',
-                'else',
-                '  bar = 3',
-                'end']
+    shared_examples '1 character assignment types' do |asgn|
+      it 'corrects assignment in if elsif else' do
+        source = ['if foo',
+                  "  bar #{asgn} 1",
+                  'elsif baz',
+                  "  bar #{asgn} 2",
+                  'else',
+                  "  bar #{asgn} 3",
+                  'end']
 
-      new_source = autocorrect_source(cop, source)
+        new_source = autocorrect_source(cop, source)
 
-      expect(new_source).to eq(['bar = if foo',
-                                '  1',
-                                'elsif baz',
-                                '  2',
-                                'else',
-                                '  3',
-                                '      end'].join("\n"))
+        expect(new_source).to eq(["bar #{asgn} if foo",
+                                  '  1',
+                                  'elsif baz',
+                                  '  2',
+                                  'else',
+                                  '  3',
+                                  '      end'].join("\n"))
+      end
     end
+
+    it_behaves_like('1 character assignment types', '=')
+    it_behaves_like('1 character assignment types', '+')
+    it_behaves_like('1 character assignment types', '-')
 
     shared_examples '2 character assignment types' do |asgn|
       it "corrects assignment using #{asgn} in if elsif else" do
