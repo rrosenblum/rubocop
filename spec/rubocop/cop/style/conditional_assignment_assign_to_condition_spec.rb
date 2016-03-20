@@ -540,6 +540,8 @@ describe RuboCop::Cop::Style::ConditionalAssignment do
   end
 
   it_behaves_like('all assignment types', '=')
+  it_behaves_like('all assignment types', '==')
+  it_behaves_like('all assignment types', '===')
   it_behaves_like('all assignment types', '||=')
   it_behaves_like('all assignment types', '&&=')
   it_behaves_like('all assignment types', '+=')
