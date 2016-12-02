@@ -1095,6 +1095,14 @@ Style/VariableNumber:
 Style/WhileUntilModifier:
   MaxLineLength: 80
 
+Style/WarnIndent:
+  EnforcedStyle: never
+  SupportedStyles:
+    # `always` will add the warn_indent magic comment to files
+    - always
+    # `never` will remove the warn_indent magic comment to files
+    - never
+
 # WordArray enforces how array literals of word-like strings should be expressed.
 Style/WordArray:
   EnforcedStyle: percent

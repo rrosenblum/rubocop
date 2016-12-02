@@ -35,6 +35,10 @@ Style/Encoding:
   StyleGuide: '#utf-8'
   Enabled: false
 
+Style/WarnIndent:
+  Description: 'Use the warn_indent magic comment.'
+  Enabled: false
+
 Style/FirstArrayElementLineBreak:
   Description: >-
                  Checks for a line break before the first element in a
