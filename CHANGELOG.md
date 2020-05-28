@@ -34,6 +34,7 @@
 ### Changes
 
 * [#8056](https://github.com/rubocop-hq/rubocop/pull/8056): **(Breaking)** Remove support for unindent/active_support/powerpack from `Layout/HeredocIndentation`, so it only recommends using squiggy heredoc. ([@bquorning][])
+* [#7971](https://github.com/rubocop-hq/rubocop/issues/7971): Fix an issue where `--disable-uncorrectable` would not update uncorrected code with `rubocop:todo`. ([@rrosenblum][])
 
 ## 0.84.0 (2020-05-21)
 
